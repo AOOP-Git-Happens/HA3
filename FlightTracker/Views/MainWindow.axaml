@@ -15,6 +15,17 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
+    <StackPanel>
+
     <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
+        <!--Buttons-->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Spacing="10">
+            <Button Content="1" Width="360"/>
+            <Button Content="2" Width="360"/>
+            <Button Content="3" Width="360"/>
+        </StackPanel>
+    </StackPanel>
 </Window>
