@@ -23,9 +23,9 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Spacing="10">
-            <Button Content="1" Width="360"/>
-            <Button Content="2" Width="360"/>
-            <Button Content="3" Width="360"/>
+            <Button Content="Route exploration" Width="360"/>
+            <Button Content="Airport's flight info" Width="360"/>
+            <Button Content="Analytics" Width="360"/>
         </StackPanel>
     </StackPanel>
 </Window>
