@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "FlightTracker.sln"
+    "dotnet.defaultSolution": "FlightTracker.sln",
+    "terminal.integrated.cwd": "${workspaceFolder}/FlightTracker"
 }
