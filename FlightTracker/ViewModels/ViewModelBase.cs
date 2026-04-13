@@ -8,4 +8,6 @@ namespace FlightTracker.ViewModels;
 /// </summary>
 public abstract class ViewModelBase : ObservableObject
 {
+    [ObservableProperty]
+    private string _header = string.Empty;
 }
