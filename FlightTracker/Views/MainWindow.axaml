@@ -10,16 +10,18 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="FlightTracker">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
     <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
     <TabControl.ItemTemplate>
-        <DataTemplate>
+        <DataTemplate x:DataType="vm:ViewModelBase">
             <TextBlock Text="{Binding Header}" />
         </DataTemplate>
     </TabControl.ItemTemplate>
+
+    <TabControl.ContentTemplate>
+        <DataTemplate x:DataType="vm:ViewModelBase">
+            <ContentControl Content="{Binding}" />
+        </DataTemplate>
+    </TabControl.ContentTemplate>
     </TabControl>
 
     

@@ -5,7 +5,7 @@ namespace FlightTracker.ViewModels;
 /// export of selected data.
 /// </summary>
 
-public class InfoFlightViewModel : ViewModelBase
+public partial class InfoFlightViewModel : ViewModelBase
 {
      public InfoFlightViewModel()
     {
