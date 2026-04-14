@@ -2,7 +2,7 @@ namespace FlightTracker.ViewModels;
 
 /// <summary>
 /// ViewModel 1. Contains airport search, map integration,
-/// selected airports, route visualisation
+/// selected airports, route visualisation, clear/reset
 /// </summary>
 
 public class RouteMapViewModel : ViewModelBase

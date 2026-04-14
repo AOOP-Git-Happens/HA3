@@ -8,6 +8,6 @@ namespace FlightTracker.Models;
 /// </summary>
 public class RouteConnection
 {
-    public string DepartureAirportCode { get; set; } = string.Empty;
-    public string ArrivalAirportCode { get; set; } = string.Empty;
+    public string DepartureAirport { get; set; } = string.Empty;
+    public string ArrivalAirport { get; set; } = string.Empty;
 }
