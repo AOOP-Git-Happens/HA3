@@ -5,7 +5,7 @@
              x:DataType="vm:InfoFlightViewModel">
 
     <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="{Binding Title}" FontSize="24"/>
+        <TextBlock Text="{Binding Header}" FontSize="24"/>
         <TextBlock Text="Placeholder for Airport's flight info."/>
     </StackPanel>
 </UserControl>
