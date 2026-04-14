@@ -10,45 +10,19 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="FlightTracker">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
+    <TabControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:ViewModelBase">
+            <TextBlock Text="{Binding Header}" />
+        </DataTemplate>
+    </TabControl.ItemTemplate>
 
-    <StackPanel>
+    <TabControl.ContentTemplate>
+        <DataTemplate x:DataType="vm:ViewModelBase">
+            <ContentControl Content="{Binding}" />
+        </DataTemplate>
+    </TabControl.ContentTemplate>
+    </TabControl>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-        <!--Buttons-->
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Spacing="10">
-
-            <!--
-            <Button Content="Route exploration" Width="360"/>
-            <Button Content="Airport's flight info" Width="360"/>
-            <Button Content="Analytics" Width="360"/>
-            -->
-
-            <TabControl>
-            <TabItem Header="Map">
-                <StackPanel Margin="16" Spacing="8">
-                    <views:RouteMapView/>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Airport Info">
-                <StackPanel Margin="16" Spacing="8">
-                    <views:InfoFlightView/>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Analytics">
-                <StackPanel Margin="16" Spacing="8">
-                    <views:AnalyticsView/>
-                </StackPanel>
-            </TabItem>
-        </TabControl>
     
-        </StackPanel>
-    </StackPanel>
 </Window>

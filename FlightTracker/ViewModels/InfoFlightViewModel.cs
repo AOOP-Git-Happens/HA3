@@ -5,7 +5,10 @@ namespace FlightTracker.ViewModels;
 /// export of selected data.
 /// </summary>
 
-public class InfoFlightViewModel : ViewModelBase
+public partial class InfoFlightViewModel : ViewModelBase
 {
-    public static string Title => "View 2 - Airport Flight Info";
+     public InfoFlightViewModel()
+    {
+        Header = "Flights"; //tab name
+    }
 }

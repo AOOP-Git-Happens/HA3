@@ -6,6 +6,8 @@ namespace FlightTracker.ViewModels;
 /// base class for all ViewModels
 /// inherit from ObservableObject to notify UI about changes
 /// </summary>
-public abstract class ViewModelBase : ObservableObject
+public abstract partial class ViewModelBase : ObservableObject
 {
+    [ObservableProperty]
+    private string _header = string.Empty;
 }
