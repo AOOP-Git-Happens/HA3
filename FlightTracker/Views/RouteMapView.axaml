@@ -11,6 +11,30 @@
 
     <StackPanel Margin="20" Spacing="10">
         <TextBlock Text="{Binding Header}" FontSize="24"/>
-        <TextBlock Text="Placeholder for route visualization and map features."/>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBox Watermark="Search airport..." Text="{Binding SearchText}" Width="250"></TextBox>
+
+            <Button Content="Clear"
+            Command="{Binding ClearSelectionCommand}"/>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding FilteredAirports}"
+        SelectedItem="{Binding SelectedAirport}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding IataCode}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Text="{Binding SelectedAirport.Name, TargetNullValue='No airport selected'}"/>
+
+        <Border Height="400">
+            <TextBlock Text="Here is map"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+        </Border>
+
     </StackPanel>
 </UserControl>
