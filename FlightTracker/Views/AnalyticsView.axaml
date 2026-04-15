@@ -4,8 +4,32 @@
              x:Class="FlightTracker.Views.AnalyticsView"
              x:DataType="vm:AnalyticsViewModel">
 
-    <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="{Binding Header}" FontSize="24"/>
-        <TextBlock Text="Placeholder for Analytics."/>
-    </StackPanel>
+            <StackPanel>
+
+                 <StackPanel>
+                    <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Flights by Airline</TextBlock>
+                    <DatePicker MinYear="2026/01/05" MaxYear="2026/03/13" />
+                    <Canvas Height="2" Margin="0,15" ClipToBounds="True">
+                        <Line StartPoint="0,0" EndPoint="10000,0" Stroke="White" StrokeThickness="2" />
+                    </Canvas>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Popular Route</TextBlock>
+                    <Canvas Height="2" Margin="0,15" ClipToBounds="True">
+                        <Line StartPoint="0,0" EndPoint="10000,0" Stroke="White" StrokeThickness="2" />
+                    </Canvas>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Busiest Airport</TextBlock>
+                    <DatePicker MinYear="2026/01/05" MaxYear="2026/03/13" />
+                </StackPanel>
+
+                <StackPanel>
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Export All" Command="{Binding ExportCommand}" />  
+                </StackPanel>
+
+            </StackPanel>
+            
 </UserControl>
