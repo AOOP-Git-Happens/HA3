@@ -20,11 +20,17 @@
             Command="{Binding ClearSelectionCommand}"/>
         </StackPanel>
 
-        <ListBox ItemsSource="{Binding FilteredAirports}"
+        <ListBox 
+        Height="150"
+        ItemsSource="{Binding FilteredAirports}"
         SelectedItem="{Binding SelectedAirport}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding IataCode}"></TextBlock>
+                    <TextBlock> 
+                        <Run Text="{Binding IataCode}"/> 
+                        <Run Text=" - "/>
+                        <Run Text="{Binding City}"></Run>
+                    </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

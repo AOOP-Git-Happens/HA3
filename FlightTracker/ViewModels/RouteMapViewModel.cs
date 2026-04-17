@@ -6,6 +6,7 @@ using FlightTracker.Services;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Collections.Generic;
 namespace FlightTracker.ViewModels;
 
 /// <summary>
@@ -15,6 +16,9 @@ namespace FlightTracker.ViewModels;
 
 public partial class RouteMapViewModel : ViewModelBase
 {
+    private readonly FlightAndAirportService _flightAndAirportService;
+
+    //search text + automatic filtering-- what should be improved for this task 
     [ObservableProperty]
     private string searchText = "";
     partial void OnSearchTextChanged(string value) //generated partial method when property changes
@@ -22,35 +26,43 @@ public partial class RouteMapViewModel : ViewModelBase
         FilterAirports();
     }
     
+    //selected item, update later routes, markers, map lines
     [ObservableProperty]
     private Airport? selectedAirport;
 
     public ObservableCollection<Airport> Airports { get; } = new();
     public ObservableCollection<Airport> FilteredAirports { get; } = new(); 
 
-    public RouteMapViewModel()
+    public RouteMapViewModel(FlightAndAirportService flightAndAirportService)
     {
         Header = "Map"; //tab name
 
-        //samples
-        Airports.Add(new Airport { IataCode = "CPH", Name = "Copenhagen Airport", City = "Copenhagen", Country = "Denmark"});
-        Airports.Add(new Airport { IataCode = "TLL", Name = "Tallinn Airport", City = "Tallinn", Country = "Estonia"});
-        Airports.Add(new Airport { IataCode = "RIA", Name = "Riga Airport", City = "Riga", Country = "Latvia"});
+        _flightAndAirportService = flightAndAirportService;
+        
+        foreach (var airport in flightAndAirportService.Airports)
+        {
+            Airports.Add(airport);
+        }
 
         FilterAirports();
     }
 
+    partial void OnSelectedAirportChanged(Airport? value)
+    {
+        //route-related data
+    }
+
+    //filtering collection
     private void FilterAirports()
     {
         FilteredAirports.Clear();
 
-        var filtered = string.IsNullOrWhiteSpace(SearchText)
-            ? Airports
-            : new ObservableCollection<Airport>(
-                Airports.Where(a =>
-                    a.Name.Contains(SearchText, System.StringComparison.OrdinalIgnoreCase) ||
-                    a.City.Contains(SearchText, System.StringComparison.OrdinalIgnoreCase) ||
-                    a.IataCode.Contains(SearchText, System.StringComparison.OrdinalIgnoreCase)));
+        var filtered = string.IsNullOrWhiteSpace(SearchText)? Airports: new ObservableCollection<Airport>(
+            Airports.Where(a =>
+                a.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                a.City.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                a.IataCode.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                a.Country.Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
 
         foreach (var airport in filtered)
         {
@@ -63,12 +75,7 @@ public partial class RouteMapViewModel : ViewModelBase
     {
         SelectedAirport = null;
         SearchText = "";
-        FilteredAirports.Clear();
-
-        foreach (var airport in Airports)
-        {
-            FilteredAirports.Add(airport);
-        }
+        FilterAirports();
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using FlightTracker.Services;
 
 namespace FlightTracker.ViewModels;
 
@@ -20,7 +21,9 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         // Add the three pages to our observable list
-        Tabs.Add(new RouteMapViewModel());
+        var service = new FlightAndAirportService();
+        
+        Tabs.Add(new RouteMapViewModel(service));
         Tabs.Add(new InfoFlightViewModel());
         Tabs.Add(new AnalyticsViewModel());
 
