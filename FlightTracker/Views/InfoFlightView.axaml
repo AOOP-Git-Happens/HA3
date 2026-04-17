@@ -5,7 +5,29 @@
              x:DataType="vm:InfoFlightViewModel">
 
     <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="{Binding Header}" FontSize="24"/>
-        <TextBlock Text="Placeholder for Airport's flight info."/>
+        <TextBlock Text="Departures" FontSize="24"/>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBox Watermark="Departing from..." Width="250"></TextBox>
+            <Button Content="Clear"/>
+            <Button Content="Export"/>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding Flights}"
+        SelectedItem="{Binding SelectedFlight}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FlightNumber}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Text="{Binding SelectedFlight.FlightNumber}"/>
+        <TextBlock Text="{Binding SelectedFlight.AirlineName}"/>
+        <TextBlock Text="{Binding SelectedFlight.AirlineCode}"/>
+        <TextBlock Text="{Binding SelectedFlight.DepartureAirport}"/>
+        <TextBlock Text="{Binding SelectedFlight.ArrivalAirport}"/>
+        <TextBlock FontStyle="Italic" Text="{Binding SelectedFlight.Status}"/>
+
     </StackPanel>
 </UserControl>
