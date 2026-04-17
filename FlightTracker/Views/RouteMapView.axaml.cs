@@ -23,7 +23,7 @@ public partial class RouteMapView : UserControl
         Map map = new Map
         {
             //CRS is Coordinate Reference System, projects earth in flat surface that map tiles, markers, routes
-            CRS = "EPSG:3857" 
+            CRS = "EPSG:3395," //resolution
         };
 
         map.Layers.Add(OpenStreetMap.CreateTileLayer()); //map is not one big image, it split into small square images
@@ -40,4 +40,8 @@ public partial class RouteMapView : UserControl
         map.Widgets.Add(new MouseCoordinatesWidget());
         return map;
     }
+
+    //Point and MPoint
+
+    //LineString
 }
