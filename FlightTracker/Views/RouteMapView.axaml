@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
              x:Class="FlightTracker.Views.RouteMapView"
              xmlns:vm="using:FlightTracker.ViewModels"
              x:DataType="vm:RouteMapViewModel">
@@ -30,10 +31,8 @@
 
         <TextBlock Text="{Binding SelectedAirport.Name, TargetNullValue='No airport selected'}"/>
 
-        <Border Height="400">
-            <TextBlock Text="Here is map"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
+        <Border Height="400" BorderBrush="Gray" BorderThickness="2">
+            <mapsui:MapControl x:Name="MyMapControl" />
         </Border>
 
     </StackPanel>
