@@ -16,6 +16,7 @@ namespace FlightTracker.ViewModels;
 
 public partial class RouteMapViewModel : ViewModelBase
 {
+    public event Action? MapUpdate;
     private readonly FlightAndAirportService _flightAndAirportService;
 
     //search text + automatic filtering-- what should be improved for this task 
@@ -32,6 +33,7 @@ public partial class RouteMapViewModel : ViewModelBase
     partial void OnSelectedAirportChanged(Airport? value)
     {
         UpdateRoutes();
+        MapUpdate?.Invoke();
     }
 
     //all airports
