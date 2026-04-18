@@ -6,13 +6,20 @@
 
             <StackPanel>
 
-                 <StackPanel>
-                    <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Flights by Airline</TextBlock>
-                    <DatePicker MinYear="2026/01/05" MaxYear="2026/03/13" />
+                <StackPanel>
+                    <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Select the date for the Analytics</TextBlock>
+                    <DatePicker MinYear="2026/01/05" MaxYear="2026/03/13" SelectedDate="{Binding SelectedDate}"/>
                     <Canvas Height="2" Margin="0,15" ClipToBounds="True">
                         <Line StartPoint="0,0" EndPoint="10000,0" Stroke="White" StrokeThickness="2" />
                     </Canvas>
                 </StackPanel>
+                
+                 <StackPanel>
+                    <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Flights by Airline</TextBlock>
+                    <Canvas Height="2" Margin="0,15" ClipToBounds="True">
+                        <Line StartPoint="0,0" EndPoint="10000,0" Stroke="White" StrokeThickness="2" />
+                    </Canvas>
+                </StackPanel> 
 
                 <StackPanel>
                     <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Popular Route</TextBlock>
@@ -23,7 +30,6 @@
 
                 <StackPanel>
                     <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Busiest Airport</TextBlock>
-                    <DatePicker MinYear="2026/01/05" MaxYear="2026/03/13" />
                 </StackPanel>
 
                 <StackPanel>
