@@ -17,17 +17,17 @@
             <TextBox Watermark="Search airport..." Text="{Binding SearchText}" Width="250"></TextBox>
 
             <Button Content="Clear"
-            Command="{Binding ClearSelectionCommand}"/>
+                    Command="{Binding ClearSelectionCommand}"/>
         </StackPanel>
 
-        <ListBox 
+        <ListBox
         Height="150"
         ItemsSource="{Binding FilteredAirports}"
         SelectedItem="{Binding SelectedAirport}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock> 
-                        <Run Text="{Binding IataCode}"/> 
+                    <TextBlock>
+                        <Run Text="{Binding IataCode}"/>
                         <Run Text=" - "/>
                         <Run Text="{Binding City}"></Run>
                     </TextBlock>
@@ -36,6 +36,23 @@
         </ListBox>
 
         <TextBlock Text="{Binding SelectedAirport.Name, TargetNullValue='No airport selected'}"/>
+
+        <!-- Temporary debug list:
+        shows whether UpdateRoutes() is filling DestinationAirports -->
+        <TextBlock Text="Destinations (temporary, i will remove it when implement routes on map):" FontWeight="Bold"/>
+
+        <ListBox ItemsSource="{Binding DestinationAirports}" Height="120">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding IataCode}"/>
+                        <Run Text=" - "/>
+                        <Run Text="{Binding City}"/>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
 
         <Border Height="400" BorderBrush="Gray" BorderThickness="2">
             <mapsui:MapControl x:Name="MyMapControl" />
