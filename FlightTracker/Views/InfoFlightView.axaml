@@ -4,30 +4,61 @@
              x:Class="FlightTracker.Views.InfoFlightView"
              x:DataType="vm:InfoFlightViewModel">
 
-    <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="Departures" FontSize="24"/>
+    <ScrollViewer>             
+        <StackPanel Margin="20" Spacing="10">
+            <TextBlock Text="Departures" FontSize="24"/>
 
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox Watermark="Departing from..." Width="250"></TextBox>
-            <Button Content="Clear"/>
-            <Button Content="Export"/>
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBox Text="{Binding SearchText}" Watermark="Departing from..." Width="250"></TextBox>
+                    <Button Content="Clear"
+                        Command="{Binding ClearSelectionCommand}"/>
+                    <Button Content="Export"/>
+            </StackPanel>
+
+            <ListBox ItemsSource="{Binding FilteredAirports}"
+            SelectedItem="{Binding SelectedAirport}"
+            Height = "200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="IataCode" />
+                                    <Binding Path="Name" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Text="Flights" FontSize="24"/>
+                    <Button Content="All"
+                                Command="{Binding FilterFlightsAllCommand}"/>
+                    <Button Content="Landed"
+                                Command="{Binding FilterFlightsLandedCommand}"/>
+                    <Button Content="Scheduled"
+                                Command="{Binding FilterFlightsScheduledCommand}"/>
+            </StackPanel>
+
+            <ListBox ItemsSource="{Binding FilteredFlights}"
+            SelectedItem="{Binding SelectedFlight}"
+            Height = "200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding FlightNumber}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock Text="{Binding SelectedFlight.FlightNumber}"/>
+            <TextBlock Text="{Binding SelectedFlight.AirlineName}"/>
+            <TextBlock Text="{Binding SelectedFlight.AirlineCode}"/>
+            <TextBlock Text="{Binding SelectedFlight.DepartureAirport}"/>
+            <TextBlock Text="{Binding SelectedFlight.ArrivalAirport}"/>
+            <TextBlock FontStyle="Italic" Text="{Binding SelectedFlight.Status}"/>
+
         </StackPanel>
-
-        <ListBox ItemsSource="{Binding Flights}"
-        SelectedItem="{Binding SelectedFlight}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding FlightNumber}"></TextBlock>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <TextBlock Text="{Binding SelectedFlight.FlightNumber}"/>
-        <TextBlock Text="{Binding SelectedFlight.AirlineName}"/>
-        <TextBlock Text="{Binding SelectedFlight.AirlineCode}"/>
-        <TextBlock Text="{Binding SelectedFlight.DepartureAirport}"/>
-        <TextBlock Text="{Binding SelectedFlight.ArrivalAirport}"/>
-        <TextBlock FontStyle="Italic" Text="{Binding SelectedFlight.Status}"/>
-
-    </StackPanel>
+    </ScrollViewer>
 </UserControl>

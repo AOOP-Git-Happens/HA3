@@ -24,7 +24,7 @@ public partial class MainWindowViewModel : ViewModelBase
         var service = new FlightAndAirportService();
         
         Tabs.Add(new RouteMapViewModel(service));
-        Tabs.Add(new InfoFlightViewModel());
+        Tabs.Add(new InfoFlightViewModel(service));
         Tabs.Add(new AnalyticsViewModel());
 
         // Set the Map as the default tab when the app opens
