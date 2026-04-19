@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:FlightTracker.ViewModels"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              x:Class="FlightTracker.Views.AnalyticsView"
              x:DataType="vm:AnalyticsViewModel">
 
@@ -16,10 +17,17 @@
                 
                  <StackPanel>
                     <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Flights by Airline</TextBlock>
+                    
+                    <lvc:PieChart
+                        Series="{Binding Series}"
+                        Height="300" 
+                        Width="300">
+                    </lvc:PieChart>
+                    
                     <Canvas Height="2" Margin="0,15" ClipToBounds="True">
                         <Line StartPoint="0,0" EndPoint="10000,0" Stroke="White" StrokeThickness="2" />
                     </Canvas>
-                </StackPanel> 
+                </StackPanel>
 
                 <StackPanel>
                     <TextBlock Margin="0 5" FontSize="30" FontWeight="Bold">Most Popular Route</TextBlock>
