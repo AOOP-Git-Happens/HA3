@@ -38,7 +38,7 @@
         <TextBlock Text="{Binding SelectedAirport.Name, TargetNullValue='No airport selected'}"/>
 
         <!-- Temporary debug list:
-        shows whether UpdateRoutes() is filling DestinationAirports -->
+        shows whether UpdateRoutes() is filling DestinationAirports 
         <TextBlock Text="Destinations (temporary, i will remove it when implement routes on map):" FontWeight="Bold"/>
 
         <ListBox ItemsSource="{Binding DestinationAirports}" Height="120">
@@ -51,7 +51,7 @@
                     </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
 
 
         <Border Height="400" BorderBrush="Gray" BorderThickness="2">

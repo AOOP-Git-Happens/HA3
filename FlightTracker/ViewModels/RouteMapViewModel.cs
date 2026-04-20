@@ -6,7 +6,6 @@ using FlightTracker.Services;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections.Generic;
 namespace FlightTracker.ViewModels;
 
 /// <summary>
@@ -16,6 +15,7 @@ namespace FlightTracker.ViewModels;
 
 public partial class RouteMapViewModel : ViewModelBase
 {
+    public event Action? MapRequestRefresh;
     private readonly FlightAndAirportService _flightAndAirportService;
 
     //search text + automatic filtering-- what should be improved for this task 
@@ -32,10 +32,11 @@ public partial class RouteMapViewModel : ViewModelBase
     partial void OnSelectedAirportChanged(Airport? value)
     {
         UpdateRoutes();
+        MapRequestRefresh?.Invoke();
     }
 
     //all airports
-    public ObservableCollection<Airport> Airports { get; } = new();
+    public ObservableCollection<Airport> AllAirports { get; } = new();
     //filter for UI
     public ObservableCollection<Airport> FilteredAirports { get; } = new();
     //route result
@@ -50,7 +51,7 @@ public partial class RouteMapViewModel : ViewModelBase
 
         foreach (var airport in flightAndAirportService.Airports)
         {
-            Airports.Add(airport);
+            AllAirports.Add(airport);
         }
 
         FilterAirports();
@@ -61,8 +62,8 @@ public partial class RouteMapViewModel : ViewModelBase
     {
         FilteredAirports.Clear();
 
-        var filtered = string.IsNullOrWhiteSpace(SearchText) ? Airports : new ObservableCollection<Airport>(
-            Airports.Where(a =>
+        var filtered = string.IsNullOrWhiteSpace(SearchText) ? AllAirports : new ObservableCollection<Airport>(
+            AllAirports.Where(a =>
                 a.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                 a.City.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                 a.IataCode.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
@@ -103,7 +104,7 @@ public partial class RouteMapViewModel : ViewModelBase
 
         // Find all Airport objects whose IATA code is in the destination list
         var destinationAirports = _flightAndAirportService.Airports
-            .Where(a => arrivalCodes.Contains(a.IataCode));
+            .Where(a => arrivalCodes.Contains(a.IataCode) && a.IataCode != SelectedAirport.IataCode);
 
         // Add the results to the observable collection so the UI updates
         foreach (var airport in destinationAirports)
