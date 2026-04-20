@@ -4,22 +4,24 @@ using Mapsui.Extensions;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
 using Mapsui.Widgets.ButtonWidgets;
-using System.Threading.Tasks;
 using Mapsui.Widgets.InfoWidgets;
 using Mapsui;
 using FlightTracker.ViewModels;
 using System;
 using Mapsui.Layers;
-using System.Collections;
 using Mapsui.Projections;
 using Mapsui.Styles;
+using System.Collections.Generic;
+using FlightTracker.Models;
 
 namespace FlightTracker.Views;
 
 public partial class RouteMapView : UserControl
 {
-    //stores airport marker layer, which can be removed later
-    private MemoryLayer? _airportLayer;
+    //stores selected aka departure airport marker layer
+    private MemoryLayer? _selectedAirportLayer;
+    //stores destination airports markers
+    private MemoryLayer? _destinationAirportsLayer;
     public RouteMapView()
     {
         InitializeComponent();
@@ -33,7 +35,7 @@ public partial class RouteMapView : UserControl
     {
         if (DataContext is RouteMapViewModel vm)
         {
-            vm.MapUpdate += UpdateMap;
+            vm.MapRequestRefresh += UpdateMap;
         }
     }
 
@@ -84,33 +86,39 @@ public partial class RouteMapView : UserControl
 
     private void UpdateMap()
     {
-        AddAirportPoint();
+        AddSelectedAirportMarker();
+        AddDestinationAirportMarkers();
         //AddRouteLine();
     }
     //Point and MPoint
 
     //add one marker for selected airport
-    private void AddAirportPoint()
+    private void AddSelectedAirportMarker()
     {
         if (DataContext is not RouteMapViewModel vm)
             return;
 
+        // If an old point layer already exists, remove it first
+        if (_selectedAirportLayer != null)
+        {
+            MyMapControl.Map?.Layers.Remove(_selectedAirportLayer);
+            _selectedAirportLayer = null;
+        }
+
+        //if nothing is selected, stop here
         if (vm.SelectedAirport == null)
+        {
+            MyMapControl.Refresh();
             return;
+        }
 
         var selected = vm.SelectedAirport;
 
-        // If an old point layer already exists, remove it first
-        if (_airportLayer != null)
-        {
-            MyMapControl.Map?.Layers.Remove(_airportLayer);
-        }
-
         // Create a new layer for the currently selected airport
-        _airportLayer = CreatePointLayer(selected.Longitude, selected.Latitude);
+        _selectedAirportLayer = CreateSelectedAirportLayer(selected.Longitude, selected.Latitude);
 
         // Add the new layer to the map
-        MyMapControl.Map?.Layers.Add(_airportLayer);
+        MyMapControl.Map?.Layers.Add(_selectedAirportLayer);
 
         //center map on selected airport
         var point = SphericalMercator.FromLonLat(selected.Longitude, selected.Latitude).ToMPoint();
@@ -127,7 +135,37 @@ public partial class RouteMapView : UserControl
         MyMapControl.Refresh();
     }
 
-    private static MemoryLayer CreatePointLayer(double longitude, double latitude)
+    //add markers for destination airports
+    private void AddDestinationAirportMarkers()
+    {
+        if (DataContext is not RouteMapViewModel vm)
+            return;
+
+        //clear old destination layer
+        if (_destinationAirportsLayer != null)
+        {
+            MyMapControl.Map?.Layers.Remove(_destinationAirportsLayer);
+            _destinationAirportsLayer = null;
+        }
+
+        if (vm.SelectedAirport == null)
+            return;
+
+        if (vm.DestinationAirports == null || vm.DestinationAirports.Count == 0)
+            return;
+
+        // Create a new layer for the currently selected destination airports
+        _destinationAirportsLayer = CreateDestinationAirportsLayer(vm.DestinationAirports, vm.SelectedAirport.IataCode);
+
+        // Add the new layer to the map
+        MyMapControl.Map?.Layers.Add(_destinationAirportsLayer);
+
+        // Refresh the map so the new point becomes visible
+        MyMapControl.Refresh();
+    }
+
+    //for departure airport
+    private static MemoryLayer CreateSelectedAirportLayer(double longitude, double latitude)
     {
         var point = SphericalMercator.FromLonLat(longitude, latitude).ToMPoint();
         var feature = new PointFeature(point);
@@ -147,6 +185,36 @@ public partial class RouteMapView : UserControl
         };
     }
 
+    //for destination airports
+    private  MemoryLayer CreateDestinationAirportsLayer(IEnumerable<Airport> airports, string selectedIataCode)
+    {
+        
+        var features = new List<IFeature>();
+
+        foreach (var airport in airports)
+        {
+            //skip selected airport, so it does not shown with two pins - departure and. arrival airport
+            if (airport.IataCode == selectedIataCode)
+                continue;
+
+            var point = SphericalMercator.FromLonLat(airport.Longitude, airport.Latitude).ToMPoint();
+            var feature = new PointFeature(point);
+            features.Add(feature);
+        }
+
+        return new MemoryLayer
+        {
+                Name = "Destinations",
+                Features = features,
+                Style = new ImageStyle
+                {
+                    Image = "embedded://FlightTracker.Assets.plane-landing.png",
+                    SymbolScale = 0.05,
+                }
+        };
+    }
+
+    //TODO: if there is a time - add lines between selected and destination airports
     //LineString
     private void AddRouteLine()
     {
