@@ -1,32 +1,25 @@
 using FlightTracker.ViewModels;
-using Avalonia.Headless; // enables UI testing without opening real windows
-using Avalonia.Headless.XUnit; // integrates Avalonia with xUnit
+using FlightTracker.Services; // Fixes Errors 3 & 4
 using FluentAssertions;
 using Xunit;
+using System.Linq;
 
 namespace FlightTracker.Tests;
 
-// Test cases that cover at least ViewModel logic and LINQ query results
-
 public class InfoFlightViewModelTests
 {
-    public readonly InfoFlightViewModel _infoFlightViewModel;
-    
-    public InfoFlightViewModelTests()
-    {
-        // SUT (System Under Test)
-        _infoFlightViewModel = new InfoFlightViewModel();
-    }
-
     [Fact]
     public void InfoFlightViewModel_ClearSelection_SetsNull()
     {
-        //Arrange
+        // Arrange
+        var testService = new FlightAndAirportService(); 
+        var viewModel = new InfoFlightViewModel(testService);
 
-        //Act
-        var result = _infoFlightViewModel.ClearSelection();
+        // Act
+        viewModel.ClearSelectionCommand.Execute(null);
 
-        //Assert
-        result.Should.BeNull();
+        // Assert
+        viewModel.SelectedAirport.Should().BeNull();
+        viewModel.SearchText.Should().BeEmpty();
     }
 }
