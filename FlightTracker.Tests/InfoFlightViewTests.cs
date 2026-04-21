@@ -1,6 +1,7 @@
 using FlightTracker.ViewModels;
 using Avalonia.Headless; // enables UI testing without opening real windows
 using Avalonia.Headless.XUnit; // integrates Avalonia with xUnit
+using FluentAssertions;
 using xUnit;
 
 namespace FlightTracker.Tests;
@@ -10,6 +11,7 @@ namespace FlightTracker.Tests;
 public class InfoFlightViewModelTests
 {
     public readonly InfoFlightViewModel _infoFlightViewModel;
+    
     public InfoFlightViewModelTests()
     {
         // SUT (System Under Test)
@@ -17,12 +19,14 @@ public class InfoFlightViewModelTests
     }
 
     [Fact]
-    public void InfoFlightViewModel_ClearSelection_SetsNull
+    public void InfoFlightViewModel_ClearSelection_SetsNull()
     {
-        //Arrange (var
+        //Arrange
 
         //Act
-        var 
+        var result = _infoFlightViewModel.ClearSelection();
+
         //Assert
+        result.Should.BeNull();
     }
 }
