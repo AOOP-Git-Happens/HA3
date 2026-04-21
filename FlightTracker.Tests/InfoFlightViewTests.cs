@@ -2,7 +2,7 @@ using FlightTracker.ViewModels;
 using Avalonia.Headless; // enables UI testing without opening real windows
 using Avalonia.Headless.XUnit; // integrates Avalonia with xUnit
 using FluentAssertions;
-using xUnit;
+using Xunit;
 
 namespace FlightTracker.Tests;
 
