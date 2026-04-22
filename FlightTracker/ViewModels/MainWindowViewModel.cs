@@ -25,7 +25,7 @@ public partial class MainWindowViewModel : ViewModelBase
         
         Tabs.Add(new RouteMapViewModel(service));
         Tabs.Add(new InfoFlightViewModel(service));
-        Tabs.Add(new AnalyticsViewModel());
+        Tabs.Add(new AnalyticsViewModel(service));
 
         // Set the Map as the default tab when the app opens
         SelectedTab = Tabs[0]; 

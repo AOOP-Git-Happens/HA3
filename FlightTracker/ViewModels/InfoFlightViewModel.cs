@@ -77,18 +77,18 @@ public partial class InfoFlightViewModel : ViewModelBase
     }
 
     private void FilterFlights()
-{
-    FilteredFlights.Clear();
-
-    var query = SelectedAirport == null 
-        ? Flights 
-        : Flights.Where(f => f.DepartureAirport == SelectedAirport.IataCode);
-
-    foreach (var flight in query)
     {
-        FilteredFlights.Add(flight);
+        FilteredFlights.Clear();
+
+        var query = SelectedAirport == null 
+            ? Flights 
+            : Flights.Where(f => f.DepartureAirport == SelectedAirport.IataCode);
+
+        foreach (var flight in query)
+        {
+            FilteredFlights.Add(flight);
+        }
     }
-}
 
     [RelayCommand]
     private void ClearSelection()
@@ -109,10 +109,9 @@ public partial class InfoFlightViewModel : ViewModelBase
     {
         FilteredFlights.Clear();
 
-        var query = SelectedAirport == null 
-            ? Flights 
-            : Flights.Where(f => f.DepartureAirport == SelectedAirport.IataCode &&
-                                f.Status == "Landed");
+        var query = Flights.Where(f =>
+        f.Status == "Landed" &&
+        (SelectedAirport == null || f.DepartureAirport == SelectedAirport.IataCode));
 
         foreach (var flight in query)
         {
@@ -125,10 +124,9 @@ public partial class InfoFlightViewModel : ViewModelBase
     {
         FilteredFlights.Clear();
 
-        var query = SelectedAirport == null 
-            ? Flights 
-            : Flights.Where(f => f.DepartureAirport == SelectedAirport.IataCode &&
-                                f.Status == "Scheduled");
+        var query = Flights.Where(f =>
+        f.Status == "Scheduled" &&
+        (SelectedAirport == null || f.DepartureAirport == SelectedAirport.IataCode));
 
         foreach (var flight in query)
         {

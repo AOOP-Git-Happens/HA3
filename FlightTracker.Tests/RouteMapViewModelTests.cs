@@ -41,4 +41,39 @@ public class RouteMapViewModelTests
         // Assert
         eventFired.Should().BeTrue();
     }
+
+    [Fact]
+    public void RouteMapViewModel_SelectedAirport_UpdatesDistinctDestinationAirports()
+    {
+        // Arrange
+        var service = new FlightAndAirportService();
+        var airport = service.Airports.First(a =>
+            service.Flights.Any(f => f.DepartureAirport == a.IataCode));
+
+        var expectedDestinationCodes = service.Flights
+            .Where(f => f.DepartureAirport == airport.IataCode)
+            .Select(f => f.ArrivalAirport)
+            .Distinct()
+            .Where(code => code != airport.IataCode)
+            .Join(
+                service.Airports,
+                code => code,
+                a => a.IataCode,
+                (code, a) => code)
+            .OrderBy(code => code)
+            .ToList();
+
+        var viewModel = new RouteMapViewModel(service);
+
+        // Act
+        viewModel.SelectedAirport = airport;
+
+        // Assert
+        var actualDestinationCodes = viewModel.DestinationAirports
+            .Select(a => a.IataCode)
+            .OrderBy(code => code)
+            .ToList();
+
+        actualDestinationCodes.Should().Equal(expectedDestinationCodes);
+    }
 }

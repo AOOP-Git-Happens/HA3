@@ -36,4 +36,28 @@ public class InfoFlightViewModelTests
         viewModel.SelectedAirport.Should().BeNull();
         viewModel.SearchText.Should().BeEmpty();
     }
+
+    [Fact]
+    public void InfoFlightViewModel_FilterFlightsLanded_FiltersByAirportAndStatus()
+    {
+        // Arrange
+        var service = new FlightAndAirportService();
+        var airport = service.Airports.First(a =>
+            service.Flights.Any(f => f.DepartureAirport == a.IataCode && f.Status == "Landed"));
+
+        var expectedFlights = service.Flights
+            .Where(f => f.DepartureAirport == airport.IataCode && f.Status == "Landed")
+            .ToList();
+
+        var viewModel = new InfoFlightViewModel(service);
+        viewModel.SelectedAirport = airport;
+
+        // Act
+        viewModel.FilterFlightsLandedCommand.Execute(null);
+
+        // Assert
+        viewModel.FilteredFlights.Should().HaveCount(expectedFlights.Count);
+        viewModel.FilteredFlights.Should().OnlyContain(f =>
+            f.DepartureAirport == airport.IataCode && f.Status == "Landed");
+    }
 }

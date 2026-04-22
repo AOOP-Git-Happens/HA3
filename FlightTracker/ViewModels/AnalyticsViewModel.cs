@@ -16,10 +16,10 @@ public partial class AnalyticsViewModel : ViewModelBase
 {
     private readonly FlightAndAirportService _service;
 
-    public AnalyticsViewModel()
+    public AnalyticsViewModel(FlightAndAirportService service)
     {
         Header = "Analytics"; // tab name
-        _service = new FlightAndAirportService(); //load the data
+        _service = service; //inject the service
     }
 
     [ObservableProperty]
