@@ -12,26 +12,32 @@ namespace FlightTracker.ViewModels;
 /// ViewModel 2. Shows airport info details, filters by status,
 /// export of selected data.
 /// </summary>
-
 public partial class InfoFlightViewModel : ViewModelBase
 {
     private readonly FlightAndAirportService _flightAndAirportService;
+    private readonly PreferenceService _preferenceService;
 
     [ObservableProperty]
     private string searchText = "";
     partial void OnSearchTextChanged(string value) //generated partial method when property changes
     {
         FilterAirports();
+        _preferenceService.Save(SearchText, SelectedAirport?.IataCode, SelectedFlight?.FlightNumber);
     }
     
     [ObservableProperty]
     private Flight? selectedFlight;
+    partial void OnSelectedFlightChanged(Flight? value)
+    {
+        _preferenceService.Save(SearchText, SelectedAirport?.IataCode, value?.FlightNumber);
+    }
 
     [ObservableProperty]
     private Airport? selectedAirport;
     partial void OnSelectedAirportChanged(Airport? value)
     {
         FilterFlights();
+        _preferenceService.Save(SearchText, SelectedAirport?.IataCode, SelectedFlight?.FlightNumber);
     }
 
     public ObservableCollection<Flight> Flights { get; } = new();
@@ -39,9 +45,12 @@ public partial class InfoFlightViewModel : ViewModelBase
     public ObservableCollection<Airport> FilteredAirports { get; } = new();
     public ObservableCollection<Flight> FilteredFlights { get; } = new();
 
-    public InfoFlightViewModel(FlightAndAirportService flightAndAirportService)
+    public InfoFlightViewModel(FlightAndAirportService flightAndAirportService, PreferenceService preferenceService)
     {
         Header = "Flights"; //tab name
+
+        _flightAndAirportService = flightAndAirportService;
+        _preferenceService = preferenceService;
 
         _flightAndAirportService = flightAndAirportService;
 
@@ -55,8 +64,15 @@ public partial class InfoFlightViewModel : ViewModelBase
             Airports.Add(airport);
         }
 
+        var (savedSearch, savedCode, savedFlightNumber) = _preferenceService.Load();
+        
+        searchText = savedSearch;
+        selectedAirport = Airports.FirstOrDefault(a => a.IataCode == savedCode);
+
         FilterAirports();
         FilterFlights();
+
+        SelectedFlight = FilteredFlights.FirstOrDefault(f => f.FlightNumber == savedFlightNumber);
     }
 
     private void FilterAirports()

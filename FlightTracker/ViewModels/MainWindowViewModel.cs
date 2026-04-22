@@ -10,6 +10,7 @@ namespace FlightTracker.ViewModels;
 /// </summary>
 public partial class MainWindowViewModel : ViewModelBase
 {
+
     [ObservableProperty]
     private ViewModelBase _selectedTab;
 
@@ -20,15 +21,13 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        // Add the three pages to our observable list
         var service = new FlightAndAirportService();
+        var preferenceService = new PreferenceService(); 
         
         Tabs.Add(new RouteMapViewModel(service));
-        Tabs.Add(new InfoFlightViewModel(service));
+        Tabs.Add(new InfoFlightViewModel(service, preferenceService)); 
         Tabs.Add(new AnalyticsViewModel(service));
-
-        // Set the Map as the default tab when the app opens
+        
         SelectedTab = Tabs[0]; 
     }
 }
-
