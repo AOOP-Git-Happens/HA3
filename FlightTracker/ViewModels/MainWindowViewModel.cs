@@ -23,9 +23,10 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         var service = new FlightAndAirportService();
         var preferenceService = new PreferenceService(); 
+        var exportService = new FlightExportService();
         
         Tabs.Add(new RouteMapViewModel(service));
-        Tabs.Add(new InfoFlightViewModel(service, preferenceService)); 
+        Tabs.Add(new InfoFlightViewModel(service, preferenceService, exportService)); 
         Tabs.Add(new AnalyticsViewModel(service));
         
         SelectedTab = Tabs[0]; 

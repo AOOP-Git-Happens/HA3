@@ -16,6 +16,7 @@ public partial class InfoFlightViewModel : ViewModelBase
 {
     private readonly FlightAndAirportService _flightAndAirportService;
     private readonly PreferenceService _preferenceService;
+    private readonly FlightExportService _flightExportService;
 
     [ObservableProperty]
     private string searchText = "";
@@ -45,14 +46,13 @@ public partial class InfoFlightViewModel : ViewModelBase
     public ObservableCollection<Airport> FilteredAirports { get; } = new();
     public ObservableCollection<Flight> FilteredFlights { get; } = new();
 
-    public InfoFlightViewModel(FlightAndAirportService flightAndAirportService, PreferenceService preferenceService)
+    public InfoFlightViewModel(FlightAndAirportService flightAndAirportService, PreferenceService preferenceService, FlightExportService flightExportService)
     {
         Header = "Flights"; //tab name
 
         _flightAndAirportService = flightAndAirportService;
         _preferenceService = preferenceService;
-
-        _flightAndAirportService = flightAndAirportService;
+        _flightExportService = flightExportService;
 
         foreach (var flight in flightAndAirportService.Flights)
         {
@@ -112,6 +112,21 @@ public partial class InfoFlightViewModel : ViewModelBase
         SelectedAirport = null;
         SearchText = "";
         FilterAirports();
+    }
+
+        [RelayCommand]
+    private void ExportButtonPress()
+    {
+        if (SelectedFlight != null)
+        {
+            _flightExportService.ExportFlight(
+                SelectedFlight.FlightNumber,
+                SelectedFlight.AirlineName,
+                SelectedFlight.DepartureAirport,
+                SelectedFlight.ArrivalAirport,
+                SelectedFlight.Status
+            );
+        }
     }
 
     [RelayCommand]

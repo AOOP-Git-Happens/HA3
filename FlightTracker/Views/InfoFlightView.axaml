@@ -12,7 +12,8 @@
                 <TextBox Text="{Binding SearchText}" Watermark="Departing from..." Width="250"></TextBox>
                     <Button Content="Clear"
                         Command="{Binding ClearSelectionCommand}"/>
-                    <Button Content="Export"/>
+                    <Button Content="Export"
+                        Command="{Binding ExportButtonPressCommand}"/>
             </StackPanel>
 
             <ListBox ItemsSource="{Binding FilteredAirports}"
