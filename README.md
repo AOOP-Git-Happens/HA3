@@ -1,27 +1,31 @@
 # HA3 - Flight Tracker
 
-This is my third home assignment and it is a flight tracking app built with Avalonia UI and C#. The project uses the MVVM pattern to keep the code organized.
+This is our third home assignment and it is a flight tracking app built with Avalonia UI and C#. The project uses the MVVM pattern to keep the code organized.
 
 ## Mockup
 ![Mockup of the project](PXL_20260410_145152892.jpg)
+We dediavted a bit from original mockup, but with the goal to improve it or simplify the UI experience.
 
 ## Project Structure Diagram
-FlightTracker/                 
-- Assets - Images and the flights.json data file
-- Models - Data classes like Airport and Flight
-- Services - Code that loads the data
+### FlightTracker/                 
+- Assets - Images (map pins) and the flights.json data file
+- Models - Data classes like Airport.cs and Flight.cs and et cetera
+- Services - Code that loads the data (FLightsAndAirportService.cs)
 - ViewModels - Connects the UI to the data
 - Views - The Avalonia UI screens (.axaml files)
 - App.axaml - Main app styling
 - Program.cs - The starting point of the app
+
+### FlightTracker.Tests/
 - FlightTracker.Tests - Folder for my unit tests
+
 - README.md - thats what ur reading atm stupid
 
 ## Setup Instructions
 To run this programm you gotta have .NET SDK installed. 
 To run this programm use: 
 
-dotnet run
+dotnet run inside FlightTracker folder 
 
 To test this build use: 
 
